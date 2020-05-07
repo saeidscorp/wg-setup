@@ -1,7 +1,9 @@
 #!/bin/bash
 
-iface_name=wg
-server_ip_sub=10.50.0.1/16
+iface_name=$1
+wg_port=$2
+wg_address=$3
+$block_torrent=$4
 
 tdir=$(mktemp -td wg-add-interface-XXXXXXXX)
 cd $tdir
@@ -13,11 +15,11 @@ prv=$(cat $tdir/prv)
 cat <<- EOF > /etc/wireguard/$iface_name.conf
 [Interface]
 PrivateKey = $prv
-Address = $server_ip_sub
-ListenPort = 51820
+Address = $wg_address
+ListenPort = $wg_port
 
-PostUp  = /etc/scripts/config-proxy.sh up
-PreDown = /etc/scripts/config-proxy.sh down
+PostUp  = /etc/scripts/config-proxy.sh up no $block_torrent
+PreDown = /etc/scripts/config-proxy.sh down no $block_torrent
 EOF
 
 

@@ -1,8 +1,9 @@
 #!/bin/bash
 
-public_iface=eth0
-wg_iface=wg
-subnet=10.20.1
+pub_iface=#(pub_iface)
+wg_iface=#(wg_iface)
+subnet_prefix=#(subnet_prefix)
+starting_ip=#(starting_ip)
 
 prev_pwd=`pwd`
 li_file=/etc/wireguard/last-ip
@@ -34,10 +35,10 @@ add_peer () {
 
     last_ip=`sudo cat $li_file 2> /dev/null`
     if [[ -z $last_ip ]]; then
-	last_ip=0
+        last_ip=$starting_ip
     fi
     new_ip_frag=$(($last_ip+1))
-    new_ip=$subnet.$new_ip_frag
+    new_ip=$subnet_prefix.$new_ip_frag
 
     cat <<- EOF > new_conf
 	# $name - $device
@@ -58,7 +59,7 @@ add_peer () {
     sudo bash -c "cat new_conf >> $wg_conf_file"
 
     server_pub=`sudo wg show $wg_iface public-key`
-    server_ip=`sudo ip addr show dev $public_iface | sed -nr 's/^\s*inet\s+([0-9.]+).*$/\1/p'`
+    server_ip=`sudo ip addr show dev $pub_iface | sed -nr 's/^\s*inet\s+([0-9.]+).*$/\1/p'`
     server_port=`sudo wg show $wg_iface listen-port`
 
     if [[ -z $ostype || $ostype != 'linux' ]]; then

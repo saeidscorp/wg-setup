@@ -7,8 +7,8 @@ After=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=True
-ExecStart=/usr/bin/wg-quick up wg
-ExecStop=/usr/bin/wg-quick down wg
+ExecStart=/usr/bin/wg-quick up #(wg_iface)
+ExecStop=/usr/bin/wg-quick down #(wg_iface)
 
 [Install]
 WantedBy=multi-user.target

@@ -2,11 +2,12 @@
 
 ## CONFIG
 #pub_iface=$([[ -f /etc/wireguard/pub-iface ]] && echo /etc/wireguard/pub-iface || echo eth0)
-pub_iface=eth0
-wg_port=51820
+pub_iface=#(pub_iface)
+wg_port=#(wg_port)
 
 mode=$1
 ss=$2
+block_torrent=$3
 
 [[ $ss == "" ]] && ss=no
 [[ $ss == "ss" ]] && ss=yes
@@ -15,7 +16,7 @@ if [[ $mode == 'up' ]]; then
 
     # spin up
 
-    /etc/scripts/block-torrent.sh up
+    [[ $block_torrent == "yes" ]] && /etc/scripts/block-torrent.sh up
 
     iptables -t nat -A POSTROUTING -o $pub_iface -j MASQUERADE
     iptables -t nat -A PREROUTING -i $pub_iface \! -f -p udp \! --dport $wg_port -m length --length 176 -m u32 --u32 "0 >> 22 & 0x3C @ 8 = 0x1000000" -j DNAT --to-destination :$wg_port
@@ -26,10 +27,11 @@ if [[ $mode == 'up' ]]; then
         echo $! > /run/ss-server.pid
     fi
 
-else                    
+else              
+
     # tear down
 
-    /etc/scripts/block-torrent.sh down
+    [[ $block_torrent == "yes" ]] && /etc/scripts/block-torrent.sh down
 
     iptables -t nat -D POSTROUTING -o $pub_iface -j MASQUERADE || true
     iptables -t nat -D PREROUTING -i $pub_iface \! -f -p udp \! --dport $wg_port -m length --length 176 -m u32 --u32 "0 >> 22 & 0x3C @ 8 = 0x1000000" -j DNAT --to-destination :$wg_port || true
