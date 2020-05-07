@@ -97,4 +97,4 @@ sed -ri "s/#\(wg_iface\)/${wg_iface}/p" /etc/systemd/system/wireguard.service
 sudo systemctl daemon-reload
 sudo systemctl start wireguard
 
-echo -e "${lush_green}All set, enjoy :)\n${normal}"
+echo -e "\n${lush_green}All set, enjoy :)\n${normal}"

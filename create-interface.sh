@@ -20,6 +20,8 @@ ListenPort = $wg_port
 
 PostUp  = /etc/scripts/config-proxy.sh up no $block_torrent
 PreDown = /etc/scripts/config-proxy.sh down no $block_torrent
+
+
 EOF
 
 
