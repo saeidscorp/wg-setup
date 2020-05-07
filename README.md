@@ -26,11 +26,13 @@ $ ./setup-wg.sh
 $ wg-manage add_peer john phone linux
 ```
 
-This will create a config file named `john-phone.conf` in the current directory.
+​	This will create a config file named `john-phone.conf` in the current directory.
 
-4. Transfer the config to the device to use. You can also use QR codes [optional]:
+4. Transfer the config to the device to use however you like. You can also use QR codes [optional]:
 
 ```bash
 $ sudo apt install -y qrencode
+$ qrencode -t ansiutf8 < john-phone.conf
 ```
 
+5. Connect and enjoy!
