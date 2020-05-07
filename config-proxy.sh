@@ -18,8 +18,7 @@ if [[ $mode == 'up' ]]; then
     /etc/scripts/block-torrent.sh up
 
     iptables -t nat -A POSTROUTING -o $pub_iface -j MASQUERADE
-    iptables -t nat -A PREROUTING -i $pub_iface \! -f -p udp \! --dport $wg_port -m length --length 176 -m u32 --u32 "0 >> 22 & 0x3C @ 8 = 0x1000000" -j DNAT --
-to-destination :$wg_port
+    iptables -t nat -A PREROUTING -i $pub_iface \! -f -p udp \! --dport $wg_port -m length --length 176 -m u32 --u32 "0 >> 22 & 0x3C @ 8 = 0x1000000" -j DNAT --to-destination :$wg_port
     sysctl -w net.ipv4.ip_forward=1
 
     if [[ $ss == 'yes' ]]; then
@@ -33,8 +32,7 @@ else
     /etc/scripts/block-torrent.sh down
 
     iptables -t nat -D POSTROUTING -o $pub_iface -j MASQUERADE || true
-    iptables -t nat -D PREROUTING -i $pub_iface \! -f -p udp \! --dport $wg_port -m length --length 176 -m u32 --u32 "0 >> 22 & 0x3C @ 8 = 0x1000000" -j DNAT --
-to-destination :$wg_port || true
+    iptables -t nat -D PREROUTING -i $pub_iface \! -f -p udp \! --dport $wg_port -m length --length 176 -m u32 --u32 "0 >> 22 & 0x3C @ 8 = 0x1000000" -j DNAT --to-destination :$wg_port || true
 
     if [[ $ss == 'yes' ]]; then
         kill $(cat /run/ss-server.pid) || true
