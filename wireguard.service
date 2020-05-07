@@ -1,0 +1,14 @@
+# install at /etc/systemd/system
+
+[Unit]
+Description=Custom WireGuard service
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=True
+ExecStart=/usr/bin/wg-quick up wg
+ExecStop=/usr/bin/wg-quick down wg
+
+[Install]
+WantedBy=multi-user.target
