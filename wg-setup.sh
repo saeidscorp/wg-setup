@@ -46,7 +46,7 @@ prompt pub_iface "Please enter the public interface with internet connectivity (
 prompt wg_iface "Please enter the desired name for WireGuard interface" "wg"
 prompt wg_port "Please enter the desired port number for WireGuard to listen on" "51820"
 prompt server_address "Please enter CIDR notation (including subnet range) for server address" "10.1.0.1/16"
-prompt first_peer_address "Please enter the first peer's ip address" "10.1.1.1"
+prompt first_peer_address "Please enter the first peer's ip address (like 10.1.1.1)"
 prompt block_torrent "Block torrent access via iptables rules (not sufficient, but better than nothing if need be) - \"yes\" or \"no\"" "yes"
 
 subnet_prefix=$(echo "${first_peer_address}" | sed -nr 's/^(([0-9]+\.){3}).*$/\1/p')
@@ -97,4 +97,4 @@ sed -ri "s/#\(wg_iface\)/${wg_iface}/p" /etc/systemd/system/wireguard.service
 sudo systemctl daemon-reload
 sudo systemctl start wireguard
 
-echo -e "${lush_green}All set, enjoy :)\n{$normal}"
+echo -e "${lush_green}All set, enjoy :)\n${normal}"
