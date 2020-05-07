@@ -17,7 +17,7 @@ $ git clone https://github.com/saeidscorp/wg-setup.git
 
 ```bash
 $ cd wg-setup
-$ ./setup-wg.sh
+$ ./wg-setup.sh
 ```
 
 3. Use `wg-manage` to create peers:
