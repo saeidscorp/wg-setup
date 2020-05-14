@@ -58,7 +58,7 @@ starting_ip=$(echo "${first_peer_address}" | sed -nr 's/^.*\.([0-9]+)\/.*$/\1/p'
 
 sudo apt update || die "apt update failed"
 sudo apt -y upgrade || die "apt upgrade failed"
-(sudo apt-add-repository -y ppa:wireguard/wireguard && sudo apt update) || echo "Failed to add WireGuard repository" >&2
+(sudo apt -y install software-properties-common && sudo add-apt-repository -y ppa:wireguard/wireguard && sudo apt update) || echo "Failed to add WireGuard repository" >&2
 sudo apt -y install wireguard || die "Installation of WireGuard failed"
 
 if [[ $block_torrent == "yes" ]]; then

@@ -3,9 +3,9 @@
 iface_name=$1
 wg_port=$2
 wg_address=$3
-$block_torrent=$4
+block_torrent=$4
 
-tdir=$(mktemp -td wg-add-interface-XXXXXXXX)
+tdir=$(mktemp -td wg-create-interface-XXXXXXXX)
 cd $tdir
 
 wg genkey | tee $tdir/prv | wg pubkey > $tdir/pub
